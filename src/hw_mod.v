@@ -28,16 +28,20 @@ module hw_mod (clk, invk_hw, short_timeout,
 	
 	//state transition
 	always@(posedge clk) begin
-		case(state_hw)
-			RED: 
-				state_hw = (invk_hw) ? YELLOW : RED;
-			YELLOW:
-				state_hw = (short_timeout) ? GREEN : YELLOW;
-			GREEN:
-				state_hw = (long_timeout && cars_on_fw) ? RED : GREEN;
-			default: 
-				state_hw = GREEN;
-		endcase
+		if(reset) 
+			state_hw = GREEN;
+		else begin
+			case(state_hw)
+				RED: 
+					state_hw = (invk_hw) ? YELLOW : RED;
+				YELLOW:
+					state_hw = (short_timeout) ? GREEN : YELLOW;
+				GREEN:
+					state_hw = (long_timeout && cars_on_fw) ? RED : GREEN;
+				default: 
+					state_hw = GREEN;
+			endcase
+		end
 	end
 	
 endmodule
