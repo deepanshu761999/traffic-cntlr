@@ -24,15 +24,15 @@ module main ;
 	end
 	
 	//module instantiations
-	timer_ins1 timer (clk, timer_hw_reset, 
-					timer_fw_reset, reset, 
+	timer timer_ins1 (clk, reset, timer_hw_reset, 
+					timer_fw_reset, 
 					short_timeout, long_timeout);
 					
-	hw_mod_ins1 hw_mod (clk, invk_hw, short_timeout,
+	hw_mod hw_mod_ins1 (clk, reset, invk_hw, short_timeout,
 						long_timeout, car_on_fw,
 						invk_fw, timer_hw_reset);
 						
-	fw_mod_ins1 fw_mod (clk, invk_fw, short_timeout,
+	fw_mod fw_mod_ins1 (clk, reset, invk_fw, short_timeout,
 						long_timeout, car_on_fw,
 						invk_hw, timer_fw_reset);
 	
@@ -43,7 +43,15 @@ module main ;
 	end
 	
 	always@(posedge clk) begin
-		car_on_fw = ($random()%3 > 0) ? 1b'1 : 1'b0; 
+		car_on_fw <= ($random%3 > 0) ? 1'b1 : 1'b0; 
 	end
+	
+	//waveform dumping
+	initial begin
+    		$dumpfile("test.vcd");
+			$dumpvars;
+    		#5000;
+    		$finish;
+	 end			
 	
 endmodule
