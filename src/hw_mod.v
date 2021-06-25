@@ -21,7 +21,7 @@ module hw_mod (clk, invk_hw, short_timeout,
 	
 	//Mealy machine outputs
 	//invoking fw
-	assign invk_fw = (state_hw == GREEN) && long_timeout) && cars_on_fw;
+	assign invk_fw = (state_hw == GREEN) && long_timeout && cars_on_fw;
 	
 	//timer reset signal
 	assign timer_hw_reset = invk_fw;
@@ -35,7 +35,8 @@ module hw_mod (clk, invk_hw, short_timeout,
 				state_hw = (short_timeout) ? GREEN : YELLOW;
 			GREEN:
 				state_hw = (long_timeout && cars_on_fw) ? RED : GREEN;
-			defaut: state_hw = GREEN;
+			default: 
+				state_hw = GREEN;
 		endcase
 	end
 	
