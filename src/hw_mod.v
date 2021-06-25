@@ -35,6 +35,7 @@ module hw_mod (clk, invk_hw, short_timeout,
 				state_hw = (short_timeout) ? GREEN : YELLOW;
 			GREEN:
 				state_hw = (long_timeout && cars_on_fw) ? RED : GREEN;
+			defaut: state_hw = GREEN;
 		endcase
 	end
 	
